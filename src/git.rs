@@ -61,25 +61,17 @@ impl GitResolver {
         let mut remote = repo.remote_anonymous(url)?;
 
         // Try to fetch the reference
-        let refs_to_fetch = vec![
-            format!("refs/tags/{}", reference),
-            format!("refs/heads/{}", reference),
-            reference.to_string(),
-        ];
-
         remote.connect(git2::Direction::Fetch)?;
         let remote_heads = remote.list()?;
 
+        // Try exact matches first
+        let refs_to_fetch = vec![
+            format!("refs/tags/{}", reference),
+            format!("refs/heads/{}", reference),
+        ];
+
         for ref_name in refs_to_fetch {
             if let Some(remote_head) = remote_heads.iter().find(|h| h.name() == ref_name) {
-                let oid = remote_head.oid();
-                return Ok(oid.to_string());
-            }
-        }
-
-        // If no exact match, try partial match
-        for remote_head in remote_heads {
-            if remote_head.name().ends_with(&reference) {
                 let oid = remote_head.oid();
                 return Ok(oid.to_string());
             }
