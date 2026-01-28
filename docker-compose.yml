@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  pin-actions:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./.github/workflows:/workspace/.github/workflows
+    command: ["--workflows-dir", "/workspace/.github/workflows", "--dry-run"]
+    
+  dev:
+    image: rust:1.75
+    working_dir: /app
+    volumes:
+      - .:/app
+      - cargo-cache:/usr/local/cargo/registry
+      - target-cache:/app/target
+    command: cargo watch -x test -x build
+    
+volumes:
+  cargo-cache:
+  target-cache:
