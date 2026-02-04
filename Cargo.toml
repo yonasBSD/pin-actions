@@ -45,7 +45,7 @@ lazy_static = "1.5"
 
 # Colors and formatting
 colored = "2.1"
-indicatif = "0.17"
+indicatif = "0.18"
 
 # Concurrency
 rayon = "1.10"
