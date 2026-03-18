@@ -14,7 +14,7 @@ categories = ["command-line-utilities", "development-tools"]
 # CLI
 clap = { version = "4.5", features = ["derive", "cargo", "color"] }
 anyhow = "1.0"
-thiserror = "1.0"
+thiserror = "2.0"
 
 # Async runtime
 tokio = { version = "1.40", features = ["full"] }
